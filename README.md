@@ -62,9 +62,21 @@ unievents/
 
 ## 2. Supabase JDBC Setup & Launch Instructions
 
-### Prerequisites
+### Zero-Prerequisite Windows Setup (Fresh PC — Installs JDK 21 + Maven + Configures `.env` + Launches App)
+If your Windows machine does not yet have Java or Maven installed, run **`setup-and-run.ps1`** in PowerShell (or double-click **`run-unievents.bat`**):
+
+```powershell
+# Option 1: From anywhere in PowerShell (even before cloning Git!)
+irm https://raw.githubusercontent.com/ammarasad2005/unievents-javafx-supabase/main/setup-and-run.ps1 | iex
+
+# Option 2: If you already downloaded setup-and-run.ps1 or cloned the folder
+powershell -NoProfile -ExecutionPolicy Bypass -File .\setup-and-run.ps1
+```
+It automatically installs **Java JDK 21 LTS** and **Apache Maven 3.9.9** (with a zero-admin portable fallback if `winget` is unavailable), downloads the project if needed, prompts once for your **Supabase Database Password** (saving it to `.env`), and launches the **UniEvents** desktop window.
+
+### Manual Prerequisites (macOS / Linux / Custom Setup)
 - **Java 17+** (tested on JDK 17 & JDK 21)
-- **Maven 3.8+**
+- **Maven 3.8+** *(or use `./mvnw` / `.\mvnw.cmd` included in the repo)*
 
 ### Step 1 — Configure Your Supabase Database Password
 Your connected Supabase project (`reoscvsfwwefkeoclkvz`, region `ap-south-1`) is already migrated and seeded, and `src/main/resources/db.properties` is pre-configured with its **IPv4-compatible Session Pooler** endpoint (which works over university Wi-Fi, PTCL, Nayatel, and mobile hotspots where direct IPv6 `db.<ref>.supabase.co` may be unreachable):

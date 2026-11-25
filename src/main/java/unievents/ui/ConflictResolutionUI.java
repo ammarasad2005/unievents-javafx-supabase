@@ -39,7 +39,7 @@ public class ConflictResolutionUI extends VBox {
     private final ListView<String> waitlistView = new ListView<>();
     private final ComboBox<ResolutionType> resolutionCombo = new ComboBox<>();
     private final TextArea reasonArea = new TextArea();
-    private final Button resolveBtn = new Button("Apply Resolution & Mark RESOLVED (UC12)");
+    private final Button resolveBtn = new Button("Resolve Conflict");
     private final Label banner = UiComponents.createBanner();
 
     private Integer selectedConflictId;
@@ -55,7 +55,7 @@ public class ConflictResolutionUI extends VBox {
     private void buildView() {
         Label title = new Label("Registration Conflict Resolution");
         title.getStyleClass().add("page-title");
-        Label subtitle = new Label("UC12 · Review open overbooking/capacity conflicts, inspect waitlist & seat history, and record an auditable resolution.");
+        Label subtitle = new Label("Review open capacity or scheduling conflicts, inspect registration history, and record a resolution.");
         subtitle.getStyleClass().add("page-subtitle");
 
         TableColumn<ConflictSummary, String> colId = new TableColumn<>("Conflict #");

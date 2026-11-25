@@ -43,18 +43,18 @@ public class AnnouncementUI extends VBox {
     }
 
     private void buildView() {
-        Label title = new Label("Send Event Announcement");
+        Label title = new Label("Event Announcements");
         title.getStyleClass().add("page-title");
-        Label subtitle = new Label("UC8 · Inspect registered & waitlisted audience counts and broadcast targeted in-app notifications.");
+        Label subtitle = new Label("Broadcast updates and reminders to registered and waitlisted participants.");
         subtitle.getStyleClass().add("page-subtitle");
 
         eventCombo.setPrefWidth(460);
         eventCombo.valueProperty().addListener((obs, o, sel) -> updateCounts(sel));
 
         HBox metricsRow = new HBox(14,
-                UiComponents.metricCard("Confirmed (REGISTERED)", regCountLabel),
-                UiComponents.metricCard("Waitlisted (WAITLISTED)", waitCountLabel),
-                UiComponents.metricCard("Total Combined (BOTH)", bothCountLabel)
+                UiComponents.metricCard("Confirmed Registrants", regCountLabel),
+                UiComponents.metricCard("Waitlisted", waitCountLabel),
+                UiComponents.metricCard("Total Recipients", bothCountLabel)
         );
 
         audienceCombo.setItems(FXCollections.observableArrayList(AudienceType.values()));
@@ -65,7 +65,7 @@ public class AnnouncementUI extends VBox {
         messageArea.setPromptText("Write the announcement message for students...");
         messageArea.setPrefRowCount(4);
 
-        Button sendBtn = new Button("Send Announcement & Notify Audience (UC8)");
+        Button sendBtn = new Button("Send Announcement");
         sendBtn.getStyleClass().add("btn-primary");
         sendBtn.setOnAction(e -> handleSend());
 

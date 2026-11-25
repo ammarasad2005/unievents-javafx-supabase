@@ -31,9 +31,9 @@ public class MyRegistrationsUI extends VBox {
 
     private final TableView<RegistrationSummary> table = new TableView<>();
     private final Label banner = UiComponents.createBanner();
-    private final Button cancelBtn = new Button("Cancel Selected Registration (UC3)");
-    private final Button checkInBtn = new Button("Check In (UC4)");
-    private final Button reviewBtn = new Button("Rate & Review (UC5)");
+    private final Button cancelBtn = new Button("Cancel Registration");
+    private final Button checkInBtn = new Button("Check In");
+    private final Button reviewBtn = new Button("Write Review");
 
     public MyRegistrationsUI(StudentController controller, IntConsumer onOpenCheckIn, IntConsumer onOpenReview) {
         this.controller = controller;
@@ -47,9 +47,9 @@ public class MyRegistrationsUI extends VBox {
     }
 
     private void buildView() {
-        Label title = new Label("My Event Registrations");
+        Label title = new Label("My Registrations");
         title.getStyleClass().add("page-title");
-        Label subtitle = new Label("UC3 · View your confirmed seats, waitlist positions, and attendance. Cancelling a confirmed seat automatically promotes #1 on the waitlist.");
+        Label subtitle = new Label("Track your confirmed seats, waitlist positions, and attendance history.");
         subtitle.getStyleClass().add("page-subtitle");
 
         TableColumn<RegistrationSummary, String> colId = new TableColumn<>("Reg #");

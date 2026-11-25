@@ -121,8 +121,7 @@ public final class DatabaseController {
         try {
             if (hasPlaceholderCredentials()) {
                 throw new DataAccessException(
-                        "Database password is not configured yet. Set db.password in src/main/resources/db.properties, "
-                                + "UNIEVENTS_DB_PASSWORD in your environment, or enter it in Connection Settings.");
+                        "Database credentials are not configured. Please set UNIEVENTS_DB_PASSWORD in .env or db.password in db.properties.");
             }
             if (connection == null || connection.isClosed()) {
                 Class.forName("org.postgresql.Driver");
@@ -134,7 +133,7 @@ public final class DatabaseController {
         } catch (ClassNotFoundException e) {
             throw new DataAccessException("PostgreSQL JDBC Driver not found on classpath.", e);
         } catch (SQLException e) {
-            throw new DataAccessException("Failed to connect to Supabase PostgreSQL: " + e.getMessage(), e);
+            throw new DataAccessException("Database connection failed: " + e.getMessage(), e);
         }
     }
 

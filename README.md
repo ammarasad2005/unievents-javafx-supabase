@@ -13,7 +13,7 @@ unievents/
 ├── Launcher.java                           # Non-modular entry point for IDE & CLI launch
 ├── ui/                                     # Presentation layer (JavaFX views — talks ONLY to application controllers)
 │   ├── UniEventsApp.java                   # Composition root
-│   ├── LoginView.java                      # Thin session login + quick-fill demo pills + runtime JDBC config
+│   ├── LoginView.java                      # Clean session sign-in view
 │   ├── MainShellView.java                  # Polymorphic role navigation (UserRoleVisitor — zero instanceof)
 │   ├── BrowseEventsUI.java                 # UC1 (Browse/Filter/Details) & UC2 (Register/Waitlist)
 │   ├── MyRegistrationsUI.java              # UC3 (My Registrations & Atomic Cancel + Promotion)
@@ -87,10 +87,9 @@ db.user=postgres.reoscvsfwwefkeoclkvz
 db.password=<YOUR_SUPABASE_DB_PASSWORD>
 ```
 
-Provide your Supabase database password using **any one** of these three options:
-1. **Edit `src/main/resources/db.properties`** and replace `<YOUR_SUPABASE_DB_PASSWORD>`.
-2. **Environment variable / `.env` file:** set `UNIEVENTS_DB_PASSWORD=<password>` (or copy `.env.example` to `.env`).
-3. **In-App UI:** Launch the app as-is and paste your password directly into the **"Supabase PostgreSQL JDBC Connection Settings"** pane on the Login screen.
+Provide your Supabase database password using **either** of these options:
+1. **Environment variable / `.env` file (automatic via `setup-and-run.ps1`):** set `UNIEVENTS_DB_PASSWORD=<password>` (or copy `.env.example` to `.env`).
+2. **Properties file:** edit `src/main/resources/db.properties` and replace `<YOUR_SUPABASE_DB_PASSWORD>`.
 
 ### Step 2 — Database Schema & Seed (if setting up a fresh DB or resetting before demo)
 - Fresh database: run `sql/schema.sql` followed by `sql/seed.sql` in the Supabase SQL Editor.
@@ -147,9 +146,7 @@ mvn test \
 
 ---
 
-## 5. 10-Minute Grading Demo Script (All 12 Use Cases End-to-End)
-
-> **Tip:** Click the quick-fill account pills on the Login screen to switch between Student, Organizer, and Admin in one second.
+## 5. 10-Minute Demo Walkthrough (All 12 Use Cases End-to-End)
 
 ### Part A — Student Flows: UC1 → UC5 (Minutes 0:00 – 4:30)
 1. **Sign In as Student (`Ali Raza` — `ali.raza@nuces.edu` / `demo123`)**
@@ -157,41 +154,41 @@ mvn test \
    - Observe only `PUBLISHED` events appear (*AI & ML Bootcamp*, *Tech Dev Hour*, *Marathon 5K*, *Cloud Native Docker Workshop*); `DRAFT` and `COMPLETED` events are hidden.
    - Filter by Category = `Sports` → only *Marathon 5K* appears. Click **Reset** and select events to inspect remaining seats and reviews on the right card.
 3. **UC2 — Register for Event (Happy Path + Full Event Waitlist):**
-   - Select **Marathon 5K** (150 seats open) → click **Register Seat (UC2)** → green banner confirms status **`REGISTERED`**.
-   - Select **Cloud Native Docker Workshop** (`FULL · Waitlist: 1`) → click **Join Waitlist (UC2)** → banner confirms status **`WAITLISTED` at Position `#2`** (behind Zainab `#1`).
+   - Select **Marathon 5K** (150 seats open) → click **Register Seat** → green banner confirms status **`REGISTERED`**.
+   - Select **Cloud Native Docker Workshop** (`FULL · Waitlist: 1`) → click **Join Waitlist** → banner confirms status **`WAITLISTED` at Position `#2`** (behind Zainab `#1`).
 4. **UC4 — Check In at Event:**
-   - Open **3. Self Check-In (UC4)** in the sidebar → choose **Tech Dev Hour** (`[REGISTERED]`).
+   - Open **Event Check-In** in the sidebar → choose **Tech Dev Hour** (`[REGISTERED]`).
    - First type `WRONG-CODE` → red error banner (`InvalidCheckInCodeException`).
    - Now enter `ACM-DEVHOUR-26` → green banner confirms `Attendance` created via `CODE` and status updated to **`ATTENDED`**.
 5. **UC5 — Rate and Review Event:**
-   - Open **4. Rate & Review (UC5)** → choose **#3 · Inter-University Hackathon [My Status: ATTENDED]** (current rating `5.0 / 5.0` from Fatima).
-   - Badge shows **`ELIGIBLE`**. Submit rating **`4`** with comment `"Great problem set and mentorship!"` → review saved, average updates live to **`4.5 / 5.0`**, and badge flips to **`INELIGIBLE`** (duplicate reviews blocked).
+   - Open **Event Reviews** → choose **#3 · Inter-University Hackathon [My Status: ATTENDED]** (current rating `5.0 / 5.0` from Fatima).
+   - Badge shows **`Eligible to Review`**. Submit rating **`4`** with comment `"Great problem set and mentorship!"` → review saved, average updates live to **`4.5 / 5.0`**, and badge flips to **`Not Eligible`** (duplicate reviews blocked).
 6. **UC3 — Cancel Registration + Automatic Waitlist Promotion:**
-   - Click **Switch Role / Sign Out** → click quick-fill **`Student: Fatima Noor`** → Sign In.
-   - Open **2. My Registrations (UC3)** → select **Cloud Native Docker Workshop** (`REGISTERED`) → click **Cancel Selected Registration (UC3)** → confirm.
+   - Click **Sign Out** → sign in as **`fatima.noor@nuces.edu` / `demo123`**.
+   - Open **My Registrations** → select **Cloud Native Docker Workshop** (`REGISTERED`) → click **Cancel Registration** → confirm.
    - Status becomes **`CANCELLED`**, **Zainab Sheikh** (`WAITLISTED #1`) is **automatically promoted to `REGISTERED`** in the same database transaction, and **Ali Raza** advances from Waitlist `#2` to `#1`!
 
 ### Part B — Club Organizer Flows: UC6 → UC10 (Minutes 4:30 – 8:00)
-7. **Sign Out → Quick-Fill `Organizer: Hamza (ACM)` (`hamza.tariq@nuces.edu` / `demo123`)**
+7. **Sign Out → Sign In as `hamza.tariq@nuces.edu` / `demo123`**
 8. **UC6 — Manage Event Details (Create & Capacity Guard):**
-   - On **1. My Events & Editor (UC6)**, click **`+ New Draft Event`**, enter Title `"System Design Workshop"`, Category `Technology`, Capacity `40`, Venue `"CS Auditorium"`, click **Save Event Details (UC6)** → created in **`DRAFT`** status with generated check-in code.
-   - Now select **Tech Dev Hour** (4 confirmed registrations) in the table, change Capacity to **`2`**, and click **Save** → domain rule rejects it (`Capacity (2) cannot be lower than current confirmed registrations (4)`).
+   - On **My Events**, click **`+ New Event`**, enter Title `"System Design Workshop"`, Category `Technology`, Capacity `40`, Venue `"CS Auditorium"`, click **Save Event** → created in **`DRAFT`** status with generated check-in code.
+   - Now select **Tech Dev Hour** (4 confirmed registrations) in the table, change Capacity to **`2`**, and click **Save Event** → domain rule rejects it (`Capacity (2) cannot be lower than current confirmed registrations (4)`).
 9. **UC7 — Manage Event Status:**
-   - Open **2. Manage Status (UC7)** → select **Freshers Welcome Night** (`DRAFT`) → transition to **`PUBLISHED`** → succeeds! (Trying an invalid jump such as `COMPLETED → DRAFT` on *Inter-University Hackathon* displays a domain validation error.)
+   - Open **Event Status** → select **Freshers Welcome Night** (`DRAFT`) → transition to **`PUBLISHED`** → click **Update Status** → succeeds! (Trying an invalid jump such as `COMPLETED → DRAFT` on *Inter-University Hackathon* displays a domain validation error.)
 10. **UC8 — Send Event Announcement:**
-    - Open **3. Send Announcement (UC8)** → select **Cloud Native Docker Workshop** → live cards show Registered: `2`, Waitlisted: `1`, Total Combined: `3`.
-    - Choose Audience `BOTH`, enter Subject `"Pre-Lab Docker Setup"` and Message `"Please pull postgres:17 before class"`, click **Send Announcement (UC8)** → confirms `Announcement` saved and **`3` student notifications delivered**.
+    - Open **Announcements** → select **Cloud Native Docker Workshop** → live cards show Confirmed Registrants: `2`, Waitlisted: `1`, Total Recipients: `3`.
+    - Choose Audience `BOTH`, enter Subject `"Pre-Lab Docker Setup"` and Message `"Please pull postgres:17 before class"`, click **Send Announcement** → confirms `Announcement` saved and **`3` student notifications delivered**.
 11. **UC9 — Mark Attendance:**
-    - Open **4. Mark Attendance (UC9)** → select **Tech Dev Hour** (notice Ali Raza already shows `ATTENDED` via `CODE`).
-    - Tick **Fatima Noor** and **Bilal Ahmed** (or click **Select All Pending**) → click **Record Manual Attendance (UC9)** → marked **`ATTENDED`** with method **`MANUAL`**.
+    - Open **Attendance Sheet** → select **Tech Dev Hour** (notice Ali Raza already shows `ATTENDED` via `CODE`).
+    - Tick **Fatima Noor** and **Bilal Ahmed** (or click **Select All Pending**) → click **Save Attendance** → marked **`ATTENDED`** with method **`MANUAL`**.
 12. **UC10 — Generate Attendance Report:**
-    - Open **5. Attendance Report (UC10)** → select **Tech Dev Hour** → click **Generate & Save Attendance Report (UC10)**.
+    - Open **Reports** → select **Tech Dev Hour** → click **Generate Report**.
     - Displays persisted `Report #`, `Confirmed Registered: 4`, `Total Attended: 3`, `Turnout Rate: 75.0%`, and the complete `Participant` table.
 
 ### Part C — Admin Flows: UC11 → UC12 (Minutes 8:00 – 10:00)
-13. **Sign Out → Quick-Fill `Admin: Dr. Ayesha Khan` (`ayesha.khan@unievents.edu` / `demo123`)**
+13. **Sign Out → Sign In as `ayesha.khan@unievents.edu` / `demo123`**
 14. **UC11 — Create Club:**
-    - On **1. Create Official Club (UC11)**, enter Name `"Robotics & Automation Society"`, Description `"Autonomous systems and embedded competitions"`, select President **`Usman Iqbal`**, and click **Create Official Club (UC11)** → club appears immediately in the Campus Societies Directory and Usman is assigned President!
+    - On **Club Directory**, enter Name `"Robotics & Automation Society"`, Description `"Autonomous systems and embedded competitions"`, select President **`Usman Iqbal`**, and click **Create Club** → club appears immediately in the Campus Societies Directory and Usman is assigned President!
 15. **UC12 — Resolve Registration Conflict:**
-    - Open **2. Resolve Conflicts (UC12)** → select **Conflict #1** (`AI & ML Bootcamp` · `CAPACITY_BREACH` · `Ahmed Hassan` — 3 active seats on a 2-seat event).
-    - Inspect registration history and current waitlist (`Bilal #1`, `Zainab #2`), choose Resolution Policy **`MOVE_TO_WAITLIST`** (or **`INCREASE_CAPACITY`**), enter Audit Reason `"Moved excess bulk-imported registration to waitlist to enforce lab limit"`, and click **Apply Resolution & Mark RESOLVED (UC12)** → conflict is marked **`RESOLVED`** and open conflicts table clears!
+    - Open **Registration Conflicts** → select **Conflict #1** (`AI & ML Bootcamp` · `CAPACITY_BREACH` · `Ahmed Hassan` — 3 active seats on a 2-seat event).
+    - Inspect registration history and current waitlist (`Bilal #1`, `Zainab #2`), choose Resolution Policy **`MOVE_TO_WAITLIST`** (or **`INCREASE_CAPACITY`**), enter Audit Reason `"Moved excess bulk-imported registration to waitlist to enforce lab limit"`, and click **Resolve Conflict** → conflict is marked **`RESOLVED`** and open conflicts table clears!

@@ -56,9 +56,9 @@ public class BrowseEventsUI extends VBox {
     private final Label detailRating = new Label("");
     private final Label detailDescription = new Label("");
     private final ListView<String> reviewsList = new ListView<>();
-    private final Button registerBtn = new Button("Register for Event (UC2)");
-    private final Button jumpCheckInBtn = new Button("Self Check-In");
-    private final Button jumpReviewBtn = new Button("Rate & Review");
+    private final Button registerBtn = new Button("Register");
+    private final Button jumpCheckInBtn = new Button("Check In");
+    private final Button jumpReviewBtn = new Button("Write Review");
 
     private Integer selectedEventId;
 
@@ -74,9 +74,9 @@ public class BrowseEventsUI extends VBox {
     }
 
     private void buildView() {
-        Label title = new Label("Browse Published Events");
+        Label title = new Label("Campus Events");
         title.getStyleClass().add("page-title");
-        Label subtitle = new Label("UC1 & UC2 · Discover society events, filter by category/club/date, and register for a confirmed seat or waitlist spot.");
+        Label subtitle = new Label("Explore upcoming society events, filter by category, club, or date, and reserve your spot.");
         subtitle.getStyleClass().add("page-subtitle");
 
         // Filter bar
@@ -287,7 +287,7 @@ public class BrowseEventsUI extends VBox {
             reviewsList.setItems(FXCollections.observableArrayList(formattedReviews));
 
             registerBtn.setDisable(false);
-            registerBtn.setText(d.remainingSeats() > 0 ? "Register Seat (UC2)" : "Join Waitlist (UC2)");
+            registerBtn.setText(d.remainingSeats() > 0 ? "Register Seat" : "Join Waitlist");
             jumpCheckInBtn.setDisable(false);
             jumpReviewBtn.setDisable(false);
         } catch (RuntimeException ex) {

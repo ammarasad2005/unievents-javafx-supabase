@@ -35,7 +35,7 @@ public class ReviewEventUI extends VBox {
     private final Label averageLabel = new Label("Average Rating: —");
     private final Spinner<Integer> ratingSpinner = new Spinner<>(1, 5, 5);
     private final TextArea commentArea = new TextArea();
-    private final Button submitBtn = new Button("Submit Rating & Review (UC5)");
+    private final Button submitBtn = new Button("Submit Review");
     private final ListView<String> existingReviews = new ListView<>();
     private final Label banner = UiComponents.createBanner();
 
@@ -55,9 +55,9 @@ public class ReviewEventUI extends VBox {
     }
 
     private void buildView() {
-        Label title = new Label("Rate & Review Attended Event");
+        Label title = new Label("Event Reviews & Ratings");
         title.getStyleClass().add("page-title");
-        Label subtitle = new Label("UC5 · Only students who have checked in (ATTENDED) and have not yet reviewed the event may submit a rating (1–5 ★).");
+        Label subtitle = new Label("Share feedback and rate events you have attended.");
         subtitle.getStyleClass().add("page-subtitle");
 
         eventCombo.setPrefWidth(460);
@@ -87,13 +87,13 @@ public class ReviewEventUI extends VBox {
         submitBtn.setOnAction(e -> handleSubmit());
 
         VBox formBox = new VBox(10,
-                UiComponents.fieldLabel("Select Event (includes your COMPLETED & attended events)"),
+                UiComponents.fieldLabel("Select Event"),
                 selectorRow,
                 statusRow,
                 new Separator(),
-                UiComponents.fieldLabel("Star Rating (1 = Poor, 5 = Excellent)"),
+                UiComponents.fieldLabel("Star Rating (1–5)"),
                 ratingSpinner,
-                UiComponents.fieldLabel("Written Review Comment"),
+                UiComponents.fieldLabel("Comments"),
                 commentArea,
                 submitBtn
         );
@@ -152,9 +152,7 @@ public class ReviewEventUI extends VBox {
             EventDetails details = controller.getEventDetails(target.eventId());
 
             eligibilityBadge.getStyleClass().setAll("badge", eligible ? "badge-green" : "badge-amber");
-            eligibilityBadge.setText(eligible
-                    ? "ELIGIBLE (Attended & Not Yet Reviewed)"
-                    : "INELIGIBLE (Must attend first or already reviewed)");
+            eligibilityBadge.setText(eligible ? "Eligible to Review" : "Not Eligible");
             submitBtn.setDisable(!eligible);
 
             averageLabel.setText(details.averageRating() > 0

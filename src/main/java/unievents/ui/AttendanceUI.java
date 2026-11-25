@@ -62,9 +62,9 @@ public class AttendanceUI extends VBox {
     }
 
     private void buildView() {
-        Label title = new Label("Attendance Sheet & Manual Check-In");
+        Label title = new Label("Attendance Sheet");
         title.getStyleClass().add("page-title");
-        Label subtitle = new Label("UC9 · View confirmed registrants, share the self check-in code, or record manual attendance.");
+        Label subtitle = new Label("View confirmed registrants, share the venue check-in code, or record attendance manually.");
         subtitle.getStyleClass().add("page-subtitle");
 
         eventCombo.setPrefWidth(420);
@@ -126,7 +126,7 @@ public class AttendanceUI extends VBox {
         table.setPlaceholder(new Label("No confirmed registrations found for this event."));
         VBox.setVgrow(table, Priority.ALWAYS);
 
-        Button recordBtn = new Button("Record Manual Attendance for Selected Students (UC9)");
+        Button recordBtn = new Button("Save Attendance");
         recordBtn.getStyleClass().add("btn-success");
         recordBtn.setOnAction(e -> handleRecordAttendance());
 

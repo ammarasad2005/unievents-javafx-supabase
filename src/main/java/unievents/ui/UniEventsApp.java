@@ -1,7 +1,6 @@
 package unievents.ui;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -17,7 +16,6 @@ import java.net.URL;
 
 /**
  * JavaFX Application Composition Root for UniEvents.
- * Wires DataHandler (SupabaseHandler) -> Application Controllers -> JavaFX Views.
  */
 public class UniEventsApp extends Application {
     private DataHandler dataHandler;
@@ -39,50 +37,16 @@ public class UniEventsApp extends Application {
 
         showLoginView();
 
-        primaryStage.setTitle("UniEvents — University Event & Club Management System");
+        primaryStage.setTitle("UniEvents — University Event & Club Management");
         primaryStage.setMinWidth(1040);
         primaryStage.setMinHeight(680);
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(e -> DatabaseController.getInstance().closeConnection());
         primaryStage.show();
-
-        // Optional automated smoke-test hook for CI/headless verification
-        String autoSmoke = System.getProperty("unievents.smoke.role");
-        if (autoSmoke == null || autoSmoke.isBlank()) {
-            autoSmoke = System.getenv("UNIEVENTS_SMOKE_ROLE");
-        }
-        if (autoSmoke != null && !autoSmoke.isBlank()) {
-            User u = authController.login(autoSmoke.trim(), "demo123");
-            showMainShell(u);
-            Platform.runLater(primaryStage::close);
-        }
     }
 
     private void showLoginView() {
-        DatabaseController db = DatabaseController.getInstance();
-        LoginView.DbConnectionConfigurer configurer = new LoginView.DbConnectionConfigurer() {
-            @Override
-            public boolean isPlaceholder() {
-                return db.hasPlaceholderCredentials();
-            }
-
-            @Override
-            public String currentUrl() {
-                return db.getUrl();
-            }
-
-            @Override
-            public String currentUser() {
-                return db.getUser();
-            }
-
-            @Override
-            public void apply(String url, String user, String password) {
-                db.configure(url, user, password);
-            }
-        };
-
-        LoginView loginView = new LoginView(authController, configurer, this::showMainShell);
+        LoginView loginView = new LoginView(authController, this::showMainShell);
         rootContainer.getChildren().setAll(loginView);
     }
 

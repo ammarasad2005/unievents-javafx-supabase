@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- * Role-based application shell built using polymorphic User methods (getRole(), getProfileSummary(), accept(UserRoleVisitor))
- * with ZERO instanceof checks or role-string conditionals.
+ * Role-based application shell built using polymorphic User methods
+ * with zero instanceof checks or role-string conditionals.
  */
 public class MainShellView extends BorderPane {
     private final User currentUser;
@@ -42,20 +42,19 @@ public class MainShellView extends BorderPane {
     }
 
     private void buildTopBar(Runnable onLogout) {
-        // Polymorphic calls directly on abstract User reference!
         Label welcomeLabel = new Label(currentUser.getProfileSummary());
         welcomeLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #0f172a;");
 
-        Label rolePill = UiComponents.statusBadge(currentUser.getRoleDisplayName() + " · " + currentUser.getRole());
+        Label rolePill = UiComponents.statusBadge(currentUser.getRoleDisplayName());
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        Button switchUserBtn = new Button("Switch Role / Sign Out");
-        switchUserBtn.getStyleClass().add("btn-secondary");
-        switchUserBtn.setOnAction(e -> onLogout.run());
+        Button signOutBtn = new Button("Sign Out");
+        signOutBtn.getStyleClass().add("btn-secondary");
+        signOutBtn.setOnAction(e -> onLogout.run());
 
-        HBox topBar = new HBox(12, welcomeLabel, rolePill, spacer, switchUserBtn);
+        HBox topBar = new HBox(12, welcomeLabel, rolePill, spacer, signOutBtn);
         topBar.setAlignment(Pos.CENTER_LEFT);
         topBar.getStyleClass().add("topbar");
         setTop(topBar);
@@ -64,15 +63,15 @@ public class MainShellView extends BorderPane {
     private void buildSidebar() {
         Label brandTitle = new Label("UniEvents");
         brandTitle.getStyleClass().add("brand-title");
-        Label brandSub = new Label("FAST-NUCES · Section E");
+        Label brandSub = new Label("Campus Event Portal");
         brandSub.getStyleClass().add("brand-subtitle");
 
-        Label navHeader = new Label("NAVIGATION (" + currentUser.getRole() + ")");
+        Label navHeader = new Label("WORKSPACE");
         navHeader.getStyleClass().add("nav-section-label");
 
         VBox sidebar = new VBox(8, new VBox(2, brandTitle, brandSub), navHeader, navItemsBox);
         sidebar.getStyleClass().add("sidebar");
-        sidebar.setPrefWidth(245);
+        sidebar.setPrefWidth(235);
         setLeft(sidebar);
     }
 
@@ -144,23 +143,23 @@ public class MainShellView extends BorderPane {
                         }
                 );
 
-                Button browseBtn = addNavItem("1. Browse & Register (UC1–2)", () -> {
+                Button browseBtn = addNavItem("Browse Events", () -> {
                     browseUI.refreshData();
                     setCenter(browseUI);
                 });
-                addNavItem("2. My Registrations (UC3)", () -> {
+                addNavItem("My Registrations", () -> {
                     myRegsUI.refreshData();
                     setCenter(myRegsUI);
                 });
-                checkInBtnRef[0] = addNavItem("3. Self Check-In (UC4)", () -> {
+                checkInBtnRef[0] = addNavItem("Event Check-In", () -> {
                     checkInUI.refreshData(null);
                     setCenter(checkInUI);
                 });
-                reviewBtnRef[0] = addNavItem("4. Rate & Review (UC5)", () -> {
+                reviewBtnRef[0] = addNavItem("Reviews & Ratings", () -> {
                     reviewUI.refreshData(null);
                     setCenter(reviewUI);
                 });
-                addNavItem("5. Notifications Inbox", () -> {
+                addNavItem("Notifications", () -> {
                     notificationsUI.refreshData();
                     setCenter(notificationsUI);
                 });
@@ -191,23 +190,23 @@ public class MainShellView extends BorderPane {
                         evId -> { reportUI.refreshData(evId); showScreen(reportUI, repBtnRef[0]); }
                 );
 
-                Button manageBtn = addNavItem("1. My Events & Editor (UC6)", () -> {
+                Button manageBtn = addNavItem("Manage Events", () -> {
                     manageUI.refreshData();
                     setCenter(manageUI);
                 });
-                statusBtnRef[0] = addNavItem("2. Manage Status (UC7)", () -> {
+                statusBtnRef[0] = addNavItem("Event Status", () -> {
                     statusUI.refreshData(null);
                     setCenter(statusUI);
                 });
-                annBtnRef[0] = addNavItem("3. Send Announcement (UC8)", () -> {
+                annBtnRef[0] = addNavItem("Announcements", () -> {
                     announcementUI.refreshData(null);
                     setCenter(announcementUI);
                 });
-                attBtnRef[0] = addNavItem("4. Mark Attendance (UC9)", () -> {
+                attBtnRef[0] = addNavItem("Attendance Sheet", () -> {
                     attendanceUI.refreshData(null);
                     setCenter(attendanceUI);
                 });
-                repBtnRef[0] = addNavItem("5. Attendance Report (UC10)", () -> {
+                repBtnRef[0] = addNavItem("Attendance Reports", () -> {
                     reportUI.refreshData(null);
                     setCenter(reportUI);
                 });
@@ -223,11 +222,11 @@ public class MainShellView extends BorderPane {
                 CreateClubUI createClubUI = new CreateClubUI(mc);
                 ConflictResolutionUI conflictUI = new ConflictResolutionUI(mc);
 
-                Button clubBtn = addNavItem("1. Create Official Club (UC11)", () -> {
+                Button clubBtn = addNavItem("Club Directory", () -> {
                     createClubUI.refreshData();
                     setCenter(createClubUI);
                 });
-                addNavItem("2. Resolve Conflicts (UC12)", () -> {
+                addNavItem("Conflict Resolution", () -> {
                     conflictUI.refreshData();
                     setCenter(conflictUI);
                 });

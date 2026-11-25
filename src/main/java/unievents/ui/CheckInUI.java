@@ -43,9 +43,9 @@ public class CheckInUI extends VBox {
     }
 
     private void buildView() {
-        Label title = new Label("Self Check-In at Event");
+        Label title = new Label("Event Check-In");
         title.getStyleClass().add("page-title");
-        Label subtitle = new Label("UC4 · Select your registered event and enter the check-in code announced at the venue.");
+        Label subtitle = new Label("Select your registered event and enter the check-in code announced at the venue.");
         subtitle.getStyleClass().add("page-subtitle");
 
         eventCombo.setPrefWidth(460);
@@ -61,11 +61,11 @@ public class CheckInUI extends VBox {
         codeField.setPromptText("e.g. ACM-DEVHOUR-26");
         codeField.setMaxWidth(320);
 
-        Button checkInBtn = new Button("Verify Code & Check In (UC4)");
+        Button checkInBtn = new Button("Verify & Check In");
         checkInBtn.getStyleClass().add("btn-success");
         checkInBtn.setOnAction(e -> handleCheckIn());
 
-        Button refreshBtn = new Button("Refresh My Events");
+        Button refreshBtn = new Button("Refresh");
         refreshBtn.getStyleClass().add("btn-secondary");
         refreshBtn.setOnAction(e -> {
             UiComponents.hideBanner(banner);
@@ -78,10 +78,10 @@ public class CheckInUI extends VBox {
         statusHint.setStyle("-fx-text-fill: #475569;");
 
         VBox formCard = new VBox(12,
-                UiComponents.fieldLabel("1. Choose Registered Event"),
+                UiComponents.fieldLabel("Registered Event"),
                 eventCombo,
                 statusHint,
-                UiComponents.fieldLabel("2. Enter Event Check-In Code"),
+                UiComponents.fieldLabel("Check-In Code"),
                 codeField,
                 buttons
         );

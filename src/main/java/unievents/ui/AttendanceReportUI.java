@@ -43,13 +43,13 @@ public class AttendanceReportUI extends VBox {
     }
 
     private void buildView() {
-        Label title = new Label("Generate Attendance Report");
+        Label title = new Label("Attendance Reports");
         title.getStyleClass().add("page-title");
-        Label subtitle = new Label("UC10 · Aggregate confirmed registrations vs actual check-ins, persist an official AttendanceReport, and inspect participants.");
+        Label subtitle = new Label("Generate official attendance summaries and review participant turnout records.");
         subtitle.getStyleClass().add("page-subtitle");
 
         eventCombo.setPrefWidth(430);
-        Button generateBtn = new Button("Generate & Save Attendance Report (UC10)");
+        Button generateBtn = new Button("Generate Report");
         generateBtn.getStyleClass().add("btn-primary");
         generateBtn.setOnAction(e -> handleGenerate());
 

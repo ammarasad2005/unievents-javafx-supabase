@@ -46,7 +46,7 @@ public class ManageEventUI extends VBox {
     private final Label banner = UiComponents.createBanner();
 
     private Integer editingEventId = null;
-    private final Label formHeading = new Label("Create New Draft Event (UC6)");
+    private final Label formHeading = new Label("Create New Event");
     private final Label checkInCodeLabel = new Label("Check-In Code: Auto-generated upon creation");
     private final TextField titleField = new TextField();
     private final ComboBox<Category> categoryCombo = new ComboBox<>();
@@ -76,9 +76,9 @@ public class ManageEventUI extends VBox {
     }
 
     private void buildView() {
-        Label title = new Label("My Club Events & Event Editor");
+        Label title = new Label("Manage Club Events");
         title.getStyleClass().add("page-title");
-        Label subtitle = new Label("UC6 · Create new society events in DRAFT status or edit mutable fields. Capacity can never drop below confirmed registrations.");
+        Label subtitle = new Label("Create draft events and manage schedules, venues, and seating capacity for your society.");
         subtitle.getStyleClass().add("page-subtitle");
 
         // Left side: My Events table + quick jump buttons to UC7–UC10
@@ -115,23 +115,23 @@ public class ManageEventUI extends VBox {
             }
         });
 
-        Button newDraftBtn = new Button("+ New Draft Event");
+        Button newDraftBtn = new Button("+ New Event");
         newDraftBtn.getStyleClass().add("btn-primary");
         newDraftBtn.setOnAction(e -> resetFormToCreate());
 
-        Button statusShortcut = new Button("Status (UC7)");
+        Button statusShortcut = new Button("Status");
         statusShortcut.getStyleClass().add("btn-secondary");
         statusShortcut.setOnAction(e -> jumpWithSelected(onOpenStatus));
 
-        Button announceShortcut = new Button("Announce (UC8)");
+        Button announceShortcut = new Button("Announce");
         announceShortcut.getStyleClass().add("btn-secondary");
         announceShortcut.setOnAction(e -> jumpWithSelected(onOpenAnnouncement));
 
-        Button attendanceShortcut = new Button("Attendance (UC9)");
+        Button attendanceShortcut = new Button("Attendance");
         attendanceShortcut.getStyleClass().add("btn-secondary");
         attendanceShortcut.setOnAction(e -> jumpWithSelected(onOpenAttendance));
 
-        Button reportShortcut = new Button("Report (UC10)");
+        Button reportShortcut = new Button("Reports");
         reportShortcut.getStyleClass().add("btn-secondary");
         reportShortcut.setOnAction(e -> jumpWithSelected(onOpenReport));
 
@@ -158,11 +158,11 @@ public class ManageEventUI extends VBox {
         descriptionArea.setPrefRowCount(3);
         descriptionArea.setPromptText("Agenda, prerequisites, speaker highlights...");
 
-        Button saveBtn = new Button("Save Event Details (UC6)");
+        Button saveBtn = new Button("Save Event");
         saveBtn.getStyleClass().add("btn-success");
         saveBtn.setOnAction(e -> handleSave());
 
-        Button clearBtn = new Button("Reset to Create Mode");
+        Button clearBtn = new Button("Clear Form");
         clearBtn.getStyleClass().add("btn-secondary");
         clearBtn.setOnAction(e -> resetFormToCreate());
 
@@ -224,7 +224,7 @@ public class ManageEventUI extends VBox {
     private void resetFormToCreate() {
         eventsTable.getSelectionModel().clearSelection();
         editingEventId = null;
-        formHeading.setText("Create New Draft Event (UC6)");
+        formHeading.setText("Create New Event");
         checkInCodeLabel.setText("Check-In Code: Auto-generated upon creation");
         titleField.clear();
         venueField.clear();

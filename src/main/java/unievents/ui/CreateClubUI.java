@@ -50,9 +50,9 @@ public class CreateClubUI extends VBox {
     }
 
     private void buildView() {
-        Label title = new Label("Campus Clubs & Create Official Society");
+        Label title = new Label("Club Directory");
         title.getStyleClass().add("page-title");
-        Label subtitle = new Label("UC11 · Register official student societies with unique names and optionally assign a Club President.");
+        Label subtitle = new Label("Register official student societies and assign club leadership.");
         subtitle.getStyleClass().add("page-subtitle");
 
         nameField.setPromptText("e.g. Robotics & Embedded Systems Society");
@@ -60,7 +60,7 @@ public class CreateClubUI extends VBox {
         descArea.setPrefRowCount(4);
         presidentCombo.setMaxWidth(Double.MAX_VALUE);
 
-        Button createBtn = new Button("Create Official Club (UC11)");
+        Button createBtn = new Button("Create Club");
         createBtn.getStyleClass().add("btn-success");
         createBtn.setOnAction(e -> handleCreate());
 

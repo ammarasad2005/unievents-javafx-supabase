@@ -279,7 +279,7 @@ if ([string]::IsNullOrWhiteSpace($ConfiguredPassword)) {
     $ConfiguredPassword = $inputPass.Trim()
 
     if ([string]::IsNullOrWhiteSpace($ConfiguredPassword)) {
-        Write-Warn 'No password entered — you can still paste it inside the Login screen Connection Settings panel.'
+        Write-Warn 'No password entered — set UNIEVENTS_DB_PASSWORD in .env or db.password in src/main/resources/db.properties before signing in.'
     } else {
         $envContent = @(
             "# Local Supabase JDBC Credentials (git-ignored)",

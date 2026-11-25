@@ -39,9 +39,9 @@ public class EventStatusUI extends VBox {
     }
 
     private void buildView() {
-        Label title = new Label("Manage Event Lifecycle Status");
+        Label title = new Label("Event Status Management");
         title.getStyleClass().add("page-title");
-        Label subtitle = new Label("UC7 · Publish draft events to the campus catalogue, mark published events completed, or cancel with participant notification.");
+        Label subtitle = new Label("Publish draft events to the campus catalogue, mark completed events, or cancel scheduled events.");
         subtitle.getStyleClass().add("page-subtitle");
 
         eventCombo.setPrefWidth(460);
@@ -50,14 +50,14 @@ public class EventStatusUI extends VBox {
         targetStatusCombo.setItems(FXCollections.observableArrayList(EventStatus.values()));
         targetStatusCombo.setPrefWidth(220);
 
-        reasonArea.setPromptText("Optional transition / cancellation reason (sent to registered & waitlisted students if CANCELLED)...");
+        reasonArea.setPromptText("Optional notes or cancellation reason...");
         reasonArea.setPrefRowCount(3);
 
-        Button applyBtn = new Button("Apply Status Transition (UC7)");
+        Button applyBtn = new Button("Update Status");
         applyBtn.getStyleClass().add("btn-primary");
         applyBtn.setOnAction(e -> handleChangeStatus());
 
-        Button refreshBtn = new Button("Refresh My Events");
+        Button refreshBtn = new Button("Refresh");
         refreshBtn.getStyleClass().add("btn-secondary");
         refreshBtn.setOnAction(e -> {
             UiComponents.hideBanner(banner);
@@ -69,13 +69,13 @@ public class EventStatusUI extends VBox {
         transitionHint.setStyle("-fx-text-fill: #64748b;");
 
         VBox card = new VBox(12,
-                UiComponents.fieldLabel("1. Select Club Event"),
+                UiComponents.fieldLabel("Club Event"),
                 eventCombo,
                 currentRow,
                 new Separator(),
-                UiComponents.fieldLabel("2. Select Target Status"),
+                UiComponents.fieldLabel("Target Status"),
                 targetStatusCombo,
-                UiComponents.fieldLabel("3. Reason / Notes (Optional)"),
+                UiComponents.fieldLabel("Reason / Notes (Optional)"),
                 reasonArea,
                 new HBox(10, applyBtn, refreshBtn)
         );
